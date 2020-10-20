@@ -15,10 +15,10 @@ data Action
 
 makeRoot :: React.Component Unit
 makeRoot = do
-  header <- makeHeader
+  render <- makeRender
   Halo.component "Root"
       { initialState
-      , render: render { header }
+      , render
       , eval: Halo.makeEval $ Halo.defaultEval
         { initialize = \props -> Just Initialize
         , onAction = handleAction
@@ -31,9 +31,10 @@ makeRoot = do
     Initialize -> Halo.modify_ _ { question = "Master Chief, mind telling me what you're doing on that ship?" }
     HandleReply -> Halo.modify_ _ { reply = Just "Sir. Finishing this fight." }
 
-  render slots { state, send } =
-    React.fragment
-      [ slots.header { text: "PureScript React Halo Example" }
+  makeRender = do
+    header <- makeHeader
+    pure \{ state, send } -> React.fragment
+      [ header { text: "PureScript React Halo Example" }
       , R.div
         { children:
           [ R.text state.question
