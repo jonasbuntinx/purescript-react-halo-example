@@ -9,32 +9,37 @@ import React.Basic.Hooks as React
 import React.Halo as Halo
 
 data Action
-  = Reply
+  = Initialize
+  | HandleReply
 
 makeRoot :: React.Component Unit
 makeRoot = do
   Halo.component "Root"
       { init
       , render
-      , eval: Halo.makeEval $ Halo.defaultEval { onAction = handleAction }
+      , eval: Halo.makeEval $ Halo.defaultEval
+        { initialize = \props -> Just Initialize
+        , onAction = handleAction
+        }
       }
   where
-  init = { reply: Nothing }
+  init = { question: "", reply: Nothing }
 
   handleAction = case _  of
-    Reply -> Halo.modify_ _ { reply = Just "Sir. Finishing this fight." }
+    Initialize -> Halo.modify_ _ { question = "Master Chief, mind telling me what you're doing on that ship?" }
+    HandleReply -> Halo.modify_ _ { reply = Just "Sir. Finishing this fight." }
 
   render { state, send } =
     React.fragment
       [ R.div
         { children:
-          [ R.text "Master Chief, mind telling me what you're doing on that ship?"
+          [ R.text state.question
           ]
         }
       , case state.reply of
           Nothing ->
             R.button
-              { onClick: handler_ $ send Reply
+              { onClick: handler_ $ send HandleReply
               , children:
                 [ R.text "Reply"
                 ]
