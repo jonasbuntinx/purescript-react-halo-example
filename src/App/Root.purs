@@ -15,7 +15,7 @@ data Action
 makeRoot :: React.Component Unit
 makeRoot = do
   Halo.component "Root"
-      { init
+      { initialState
       , render
       , eval: Halo.makeEval $ Halo.defaultEval
         { initialize = \props -> Just Initialize
@@ -23,7 +23,7 @@ makeRoot = do
         }
       }
   where
-  init = { question: "", reply: Nothing }
+  initialState = { question: "", reply: Nothing }
 
   handleAction = case _  of
     Initialize -> Halo.modify_ _ { question = "Master Chief, mind telling me what you're doing on that ship?" }
