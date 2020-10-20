@@ -2,6 +2,7 @@ module App.Root where
 
 import Prelude
 
+import App.Component.Header (makeHeader)
 import Data.Maybe (Maybe(..))
 import React.Basic.DOM as R
 import React.Basic.Events (handler_)
@@ -14,9 +15,10 @@ data Action
 
 makeRoot :: React.Component Unit
 makeRoot = do
+  header <- makeHeader
   Halo.component "Root"
       { initialState
-      , render
+      , render: render { header }
       , eval: Halo.makeEval $ Halo.defaultEval
         { initialize = \props -> Just Initialize
         , onAction = handleAction
@@ -29,9 +31,10 @@ makeRoot = do
     Initialize -> Halo.modify_ _ { question = "Master Chief, mind telling me what you're doing on that ship?" }
     HandleReply -> Halo.modify_ _ { reply = Just "Sir. Finishing this fight." }
 
-  render { state, send } =
+  render slots { state, send } =
     React.fragment
-      [ R.div
+      [ slots.header { text: "PureScript React Halo Example" }
+      , R.div
         { children:
           [ R.text state.question
           ]
