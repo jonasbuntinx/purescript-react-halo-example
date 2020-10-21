@@ -3,6 +3,7 @@ module Main where
 import Prelude
 
 import App.Root as Root
+import Control.Monad.Reader (runReaderT)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Effect.Exception (throw)
@@ -18,5 +19,5 @@ main = do
   case container of
     Nothing -> throw "App container element not found."
     Just c -> do
-      root <- Root.makeRoot
+      root <- runReaderT Root.makeRoot { nat: identity }
       render ( root unit ) c

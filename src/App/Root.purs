@@ -3,7 +3,10 @@ module App.Root where
 import Prelude
 
 import App.Component.Header (makeHeader)
+import Control.Monad.Reader (ReaderT, ask)
 import Data.Maybe (Maybe(..))
+import Effect (Effect)
+import Effect.Aff (Aff)
 import React.Basic.DOM as R
 import React.Basic.Events (handler_)
 import React.Basic.Hooks as React
@@ -13,17 +16,19 @@ data Action
   = Initialize
   | HandleReply
 
-makeRoot :: React.Component Unit
+makeRoot :: forall props. ReaderT { nat :: Aff ~> Aff } Effect (props -> React.JSX)
 makeRoot = do
-  render <- makeRender
-  Halo.component "Root"
-      { initialState
-      , render
-      , eval: Halo.makeEval $ Halo.defaultEval
-        { initialize = \props -> Just Initialize
-        , onAction = handleAction
+  { nat: nat :: Aff ~> Aff } <- ask
+  Halo.liftEffect do
+    render <- makeRender
+    Halo.component "Root"
+        { initialState
+        , render
+        , eval: Halo.hoist nat <<< Halo.makeEval Halo.defaultEval
+            { initialize = \props -> Just Initialize
+            , onAction = handleAction
+            }
         }
-      }
   where
   initialState = { question: "", reply: Nothing }
 
