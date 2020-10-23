@@ -1,7 +1,6 @@
 module Main where
 
 import Prelude
-
 import App.Root as Root
 import Control.Monad.Reader (runReaderT)
 import Data.Maybe (Maybe(..))
@@ -20,4 +19,4 @@ main = do
     Nothing -> throw "App container element not found."
     Just c -> do
       root <- runReaderT Root.makeRoot { nat: identity }
-      render ( root unit ) c
+      render (root unit) c

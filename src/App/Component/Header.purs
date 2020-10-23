@@ -1,7 +1,6 @@
 module App.Component.Header where
 
 import Prelude
-
 import React.Basic.DOM as R
 import React.Basic.Hooks as React
 
