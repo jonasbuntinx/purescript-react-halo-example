@@ -119,22 +119,22 @@ let additions =
 
 
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.13.8-20201007/packages.dhall sha256:35633f6f591b94d216392c9e0500207bb1fec42dd355f4fecdfd186956567b6b
+      https://github.com/purescript/package-sets/releases/download/psc-0.13.8-20201021/packages.dhall sha256:55ebdbda1bd6ede4d5307fbc1ef19988c80271b4225d833c8d6fb9b6fb1aa6d8
 
 let overrides = {=}
 
 let additions =
       { wire =
         { dependencies =
-          [ "aff", "filterable", "foreign-object", "refs", "unsafe-reference" ]
+          [ "aff", "filterable", "refs", "unsafe-reference" ]
         , repo = "https://github.com/robertdp/purescript-wire"
         , version = "v0.4.2"
         }
       , react-halo =
         { dependencies =
-          [ "aff", "avar", "free", "freeap", "react-basic-hooks", "wire" ]
+          [ "aff", "free", "freeap", "react-basic-hooks", "wire" ]
         , repo = "https://github.com/robertdp/purescript-react-halo"
-        , version = "master"
+        , version = "v0.2.3"
         }
       }
 

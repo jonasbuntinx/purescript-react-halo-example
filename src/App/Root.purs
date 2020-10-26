@@ -26,7 +26,7 @@ makeRoot = do
       , eval:
           Halo.hoist nat
             <<< Halo.makeEval
-                Halo.defaultEval
+                _
                   { onInitialize = \props -> Just Initialize
                   , onAction = handleAction
                   }
