@@ -11,9 +11,7 @@ type Props
 makeHeader :: React.Component Props
 makeHeader =
   React.component "Header" \props -> React.do
-    pure $ render props
-  where
-  render props =
-    R.header_
-      [ R.h1_ [ R.text props.text ]
-      ]
+    pure
+      $ R.header_
+          [ R.h2_ [ R.text props.text ]
+          ]
